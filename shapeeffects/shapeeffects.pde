@@ -31,28 +31,29 @@ void draw() {
   //     objeto "abaixo" dele, que eh da classe GrowthEffect
   // - O GrowthEffect.draw() chama o grow() e depois o draw() do Shape
   // - O Shape.draw() desenha o objeto na tela, com os efeitos fade() e grow()
-}
 
-void mousePressed() {
-  ShapeInterface s;
-  switch (current_shape) {
-  case 1:
-    s = makeshape(ELLIPSE, mouseX, mouseY, size1, size1);
-    break;
-  case 2:
-    s = makeshape(ELLIPSE, mouseX, mouseY, size1, size2);
-    break;
-  case 3:
-    s = makeshape(RECT, mouseX, mouseY, size1, size2);
-    break;
-  default:
-    s = makeshape(RECT, mouseX, mouseY, size1, size1);
-    break;
+
+  if (mousePressed) {
+    ShapeInterface s;
+    switch (current_shape) {
+    case 1:
+      s = makeshape(ELLIPSE, mouseX, mouseY, size1, size1);
+      break;
+    case 2:
+      s = makeshape(ELLIPSE, mouseX, mouseY, size1, size2);
+      break;
+    case 3:
+      s = makeshape(RECT, mouseX, mouseY, size1, size2);
+      break;
+    default:
+      s = makeshape(RECT, mouseX, mouseY, size1, size1);
+      break;
+    }
+    shapes.add(s);
   }
-  shapes.add(s);
 }
 
-  void keyPressed() {
+void keyPressed() {
   switch(key) {
   case '1':
     current_shape = 1;
