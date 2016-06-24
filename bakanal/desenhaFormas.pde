@@ -1,10 +1,10 @@
 
 ShapeContainer shapes = new ShapeContainer(200);
 int total_shapes=7;
-int current_shape;
+int current_shape=0;
 
 int total_effects=4;
-int current_effect;
+int current_effect=0;
 
 color c[] = {#F46036, #D7263D, #C5D86D, #1B998B, #5F55A0};
 int current_color=int(random(c.length));
