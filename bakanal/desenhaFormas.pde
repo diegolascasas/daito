@@ -12,18 +12,24 @@ int current_color=int(random(c.length));
 int size1=30;
 int size2=60;
 
-void desenhaFormas(){
+void desenhaFormas(boolean hand1, int hand1X, int hand1Y, boolean hand2, int hand2X, int hand2Y){
   rectMode(CENTER);
   
   // trocar essas variáveis pelas referentes ao kinect
-  boolean hand = mousePressed; // aberta/fechada/seilá 
-  int handX = mouseX;
-  int handY = mouseY;
+  //boolean hand = mousePressed; // aberta/fechada/seilá 
+  //int handX = mouseX;
+  //int handY = mouseY;
   
   shapes.draw_and_clean();
   
-  if (hand) {
-    Shape s = createMyShape(handX, handY);
+  if (hand1) {
+    Shape s = createMyShape(hand1X, hand1Y);
+    ShapeInterface si = addEffect(s);
+    shapes.add(si);
+  }
+  
+  if (hand2) {
+    Shape s = createMyShape(hand2X, hand2Y);
     ShapeInterface si = addEffect(s);
     shapes.add(si);
   }

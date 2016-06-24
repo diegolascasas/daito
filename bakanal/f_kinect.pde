@@ -79,7 +79,7 @@ void interacoes(int desenho) {
       if (desenho == 0) openCV();
       else if (desenho == 1) corposFormas();
       else if (desenho == 2) corposASC();
-      //else if (desenho == 3) desenhaFormas();
+      else if (desenho == 3) desenhaFormas(estadoMao(++MAO1++), mao_xe, mao_ye, estadoMao(+++MAO2+++), mao_xd, mao_yd);
       //guardei para se futuramente for usar interacao com handState ja ter algo pronto p ver como funciona
       //drawHandState(joints[KinectPV2.JointType_HandRight]);
       //drawHandState(joints[KinectPV2.JointType_HandLeft]);
