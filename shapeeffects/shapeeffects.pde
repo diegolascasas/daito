@@ -6,6 +6,9 @@ int nshapes;
 ShapeContainer shapes = new ShapeContainer(200);
 int current_shape;
 
+color c[] = {#F46036, #D7263D, #C5D86D, #1B998B};
+int currentColor=int(random(c.length));
+
 int size1, size2;
 
 void setup() {
@@ -21,7 +24,7 @@ void setup() {
 void draw() {
   background(0, 0, 0);
   shapes.draw_and_clean();
-  
+
   // (da uma olhada nos comentarios das outras tabs para entender 
   //   a implementacao)
   // O que vai acontecer com esse objeto eh o seguinte:
@@ -68,10 +71,15 @@ void keyPressed() {
     current_shape = 4;
     break;
   case '+':
-    size1++; size2++;
+    size1++; 
+    size2++;
     break;
   case '-':
-    size1--; size2--;
+    size1--; 
+    size2--;
+    break;
+  case 'c':
+    currentColor=(currentColor+1)%c.length;
     break;
   }
 }
@@ -79,10 +87,12 @@ void keyPressed() {
 
 ShapeInterface makeshape(int type, int x, int y, int w, int h) {
   PShape r = createShape(type, 0, 0, w, h);
-  r.setStroke(color(127,127,255));
-  Shape s = new Shape(r,x,y);
-  return new FadeEffect(new GrowthEffect(s, 0.2), 0.3, 3);
- }
+  r.setStroke(c[currentColor]);
+  Shape s = new Shape(r, x, y);
+  //return new FadeEffect(new GrowthEffect(s, 0.2), 0.1, 1); // tunel
+  //return new FadeEffect(new GrowthEffect(s, 0.2), 0.3, 3); // shapes
+  return new FadeEffect(new GrowthEffect(s, 0.12), 0.1, 1); // shapes
+}
 
 
 // shapes possiveis:
