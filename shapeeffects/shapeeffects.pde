@@ -5,10 +5,12 @@ boolean a;
 int nshapes;
 ShapeContainer shapes = new ShapeContainer(50);
 int current_shape;
+
+int total_effects=4;
 int current_effect;
 
 color c[] = {#F46036, #D7263D, #C5D86D, #1B998B};
-int currentColor=int(random(c.length));
+int current_color=int(random(c.length));
 
 int size1, size2;
 
@@ -70,19 +72,16 @@ if (mousePressed) {
     }
     
     switch (current_effect) {
-      case 1:
+      case 0:
         si = new FadeEffect(new GrowthEffect(s, 0.2), 0.1, 1); // tunel
       break;
-      case 2:
+      case 1:
         si = new FadeEffect(new GrowthEffect(s, 0.2), 0.3, 3); // shapes
       break;
-      case 3:
-        si = new GrowthEffect(new FadeEffect(s, 0.1, 1),0.2);
-      break;
-      case 4:
+      case 2:
         si = new GrowthEffect(new FadeEffect(new RotateEffect(s,0.3), 0.3, 3),0.3); // rotate still
       break;
-      case 5:
+      case 3:
         si = new GrowthEffect(new FadeEffect(new RotateEffect(s,radians(frameCount%360)), 0.3, 3),0.3); // rotate movement
       break;
       default:
@@ -126,7 +125,11 @@ void keyPressed() {
     size2--;
     break;
   case 'c':
-    currentColor=(currentColor+1)%c.length;
+    current_color=(current_color+1)%c.length;
+    break;
+  case 'e':
+    current_effect=(current_effect+1)%total_effects;
+    println(current_effect);
     break;
   }
 }
@@ -134,7 +137,7 @@ void keyPressed() {
 
 Shape makeshape(int type, int x, int y, int w, int h) {
   PShape r = createShape(type, 0, 0, w, h);
-  r.setStroke(c[currentColor]);
+  r.setStroke(c[current_color]);
   Shape s = new Shape(r, x, y);
   return s;
 }
@@ -151,7 +154,7 @@ Shape makeshape(int npoints, int x, int y, float radius) {
     r.vertex(sx, sy);
   }
   r.endShape(CLOSE);
-  r.setStroke(c[currentColor]);
+  r.setStroke(c[current_color]);
   
   Shape s = new Shape(r, x, y);
 
