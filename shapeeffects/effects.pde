@@ -90,3 +90,27 @@ public class FadeEffect extends ShapeEffectDecorator {
     base_shape.draw();
   }
 }
+
+public class RotateEffect extends ShapeEffectDecorator {
+  float rotate_angle;
+
+  public RotateEffect(ShapeInterface s, float rotate_angle_) {
+    super(s);
+    rotate_angle = rotate_angle_;
+    base_shape.getPShape().setFill(false);
+  }
+
+  public RotateEffect(ShapeInterface s) {
+    this(s, 0.3);
+  }
+
+  void rotate() {
+    base_shape.getPShape().rotate(rotate_angle);
+    
+  }
+
+  void draw() {
+    rotate();
+    base_shape.draw();
+  }
+}

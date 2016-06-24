@@ -19,7 +19,7 @@ void setup() {
   size1 = 30;
   size2 = 60;
   current_shape = 4;
-  current_effect = 3;
+  current_effect = 5;
   rectMode(CENTER);
 }
 
@@ -77,10 +77,16 @@ if (mousePressed) {
         si = new FadeEffect(new GrowthEffect(s, 0.2), 0.3, 3); // shapes
       break;
       case 3:
-        si = new GrowthEffect(new FadeEffect(s, 0.1, 1),0.2); // shapes
+        si = new GrowthEffect(new FadeEffect(s, 0.1, 1),0.2);
+      break;
+      case 4:
+        si = new GrowthEffect(new FadeEffect(new RotateEffect(s,0.3), 0.3, 3),0.3); // rotate still
+      break;
+      case 5:
+        si = new GrowthEffect(new FadeEffect(new RotateEffect(s,radians(frameCount%360)), 0.3, 3),0.3); // rotate movement
       break;
       default:
-        si = new FadeEffect(new GrowthEffect(s, 0.2), 0.3, 3); // shapes
+        si = new FadeEffect(new GrowthEffect(s, 0.2), 0.3, 3);
       break;
     }
     
