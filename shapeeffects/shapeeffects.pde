@@ -3,7 +3,7 @@ int radius = 20;
 PShape rect;
 boolean a;
 int nshapes;
-ShapeContainer shapes = new ShapeContainer(50);
+ShapeContainer shapes = new ShapeContainer(200);
 int current_shape;
 
 int total_effects=4;
@@ -40,38 +40,50 @@ void draw() {
   // - O Shape.draw() desenha o objeto na tela, com os efeitos fade() e grow()
 
 
-if (mousePressed) {
-    Shape s;
-    ShapeInterface si;
+  if (mousePressed) {
+  //for(int i=0;i<4; i++){ // testando várias mãos
+    //Shape s = createMyShape(mouseX+50*i, mouseY);
+    Shape s = createMyShape(mouseX, mouseY);
+    ShapeInterface si = addEffect(s);
+    shapes.add(si);
+  //}
+  }
+}
 
-    switch (current_shape) {
+Shape createMyShape(int x, int y){
+  Shape s;
+  switch (current_shape) {
       case 1:
-        s = makeshape(ELLIPSE, mouseX, mouseY, size1, size1);
+        s = makeshape(ELLIPSE, x, y, size1, size1);
         break;
       case 2:
-        s = makeshape(ELLIPSE, mouseX, mouseY, size1, size2);
+        s = makeshape(ELLIPSE, x, y, size1, size2);
         break;
       case 3:
-        s = makeshape(RECT, mouseX, mouseY, size1, size2);
+        s = makeshape(RECT, x, y, size1, size2);
         break;
       case 4:
-        s = makeshape(RECT, mouseX, mouseY, size1, size1);
+        s = makeshape(RECT, x, y, size1, size1);
         break;
       case 5:
-        s = makeshape(3, mouseX, mouseY, size1);
+        s = makeshape(3, x, y, size1);
         break;
       case 6:
-        s = makeshape(5, mouseX, mouseY, size1);
+        s = makeshape(5, x, y, size1);
         break;
       case 7:
-        s = makeshape(6, mouseX, mouseY, size1);
+        s = makeshape(6, x, y, size1);
         break;
       default:
-        s = makeshape(RECT, mouseX, mouseY, size1, size1);
+        s = makeshape(RECT, x, y, size1, size1);
         break;
     }
-    
-    switch (current_effect) {
+    return s;
+}
+
+ShapeInterface addEffect(Shape s){
+  ShapeInterface si;
+  switch (current_effect) {
       case 0:
         si = new FadeEffect(new GrowthEffect(s, 0.2), 0.1, 1); // tunel
       break;
@@ -82,15 +94,13 @@ if (mousePressed) {
         si = new GrowthEffect(new FadeEffect(new RotateEffect(s,0.3), 0.3, 3),0.3); // rotate still
       break;
       case 3:
-        si = new GrowthEffect(new FadeEffect(new RotateEffect(s,radians(frameCount%360)), 0.3, 3),0.3); // rotate movement
+        si = new GrowthEffect(new FadeEffect(new RotateEffect(s,radians(frameCount%360)), 0.5, 5),0.5); // rotate movement
       break;
       default:
         si = new FadeEffect(new GrowthEffect(s, 0.2), 0.3, 3);
       break;
     }
-    
-    shapes.add(si);
-  }
+    return si;
 }
 
 void keyPressed() {
@@ -129,7 +139,6 @@ void keyPressed() {
     break;
   case 'e':
     current_effect=(current_effect+1)%total_effects;
-    println(current_effect);
     break;
   }
 }
@@ -145,7 +154,6 @@ Shape makeshape(int type, int x, int y, int w, int h) {
 // Função pra criar formas diferentes (como triângulos, pentágonos e hexágonos)
 Shape makeshape(int npoints, int x, int y, float radius) {
   PShape r = createShape();
-  
   float angle = TWO_PI / npoints;
   r.beginShape();
   for (float a = 0; a < TWO_PI; a += angle) {
