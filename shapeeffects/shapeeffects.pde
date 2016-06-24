@@ -9,7 +9,7 @@ int current_shape;
 int total_effects=4;
 int current_effect;
 
-color c[] = {#F46036, #D7263D, #C5D86D, #1B998B};
+color c[] = {#F46036, #D7263D, #C5D86D, #1B998B, #5F55A0};
 int current_color=int(random(c.length));
 
 int size1, size2;
