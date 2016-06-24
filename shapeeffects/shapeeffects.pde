@@ -39,18 +39,30 @@ void draw() {
   if (mousePressed) {
     ShapeInterface s;
     switch (current_shape) {
-    case 1:
-      s = makeshape(ELLIPSE, mouseX, mouseY, size1, size1);
-      break;
-    case 2:
-      s = makeshape(ELLIPSE, mouseX, mouseY, size1, size2);
-      break;
-    case 3:
-      s = makeshape(RECT, mouseX, mouseY, size1, size2);
-      break;
-    default:
-      s = makeshape(RECT, mouseX, mouseY, size1, size1);
-      break;
+      case 1:
+        s = makeshape(ELLIPSE, mouseX, mouseY, size1, size1);
+        break;
+      case 2:
+        s = makeshape(ELLIPSE, mouseX, mouseY, size1, size2);
+        break;
+      case 3:
+        s = makeshape(RECT, mouseX, mouseY, size1, size2);
+        break;
+      case 4:
+        s = makeshape(RECT, mouseX, mouseY, size1, size1);
+        break;
+      case 5:
+        s = makeshape(3, mouseX, mouseY, size1);
+        break;
+      case 6:
+        s = makeshape(5, mouseX, mouseY, size1);
+        break;
+      case 7:
+        s = makeshape(6, mouseX, mouseY, size1);
+        break;
+      default:
+        s = makeshape(RECT, mouseX, mouseY, size1, size1);
+        break;
     }
     shapes.add(s);
   }
@@ -69,6 +81,15 @@ void keyPressed() {
     break;
   case '4':
     current_shape = 4;
+    break;
+  case '5':
+    current_shape = 5;
+    break;
+  case '6':
+    current_shape = 6;
+    break;
+  case '7':
+    current_shape = 7;
     break;
   case '+':
     size1++; 
@@ -92,6 +113,25 @@ ShapeInterface makeshape(int type, int x, int y, int w, int h) {
   //return new FadeEffect(new GrowthEffect(s, 0.2), 0.1, 1); // tunel
   //return new FadeEffect(new GrowthEffect(s, 0.2), 0.3, 3); // shapes
   return new FadeEffect(new GrowthEffect(s, 0.12), 0.1, 1); // shapes
+}
+
+
+ShapeInterface makeshape(int npoints, int x, int y, float radius) {
+  PShape r = createShape();
+  
+  float angle = TWO_PI / npoints;
+  r.beginShape();
+  for (float a = 0; a < TWO_PI; a += angle) {
+    float sx = 0 + cos(a) * radius;
+    float sy = 0 + sin(a) * radius;
+    r.vertex(sx, sy);
+  }
+  r.endShape(CLOSE);
+  r.setStroke(c[currentColor]);
+  
+  Shape s = new Shape(r, x, y);
+  return new FadeEffect(new GrowthEffect(s, 0.12), 0.1, 1); // shapes
+  
 }
 
 
