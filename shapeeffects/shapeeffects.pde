@@ -3,8 +3,9 @@ int radius = 20;
 PShape rect;
 boolean a;
 int nshapes;
-ShapeContainer shapes = new ShapeContainer(200);
+ShapeContainer shapes = new ShapeContainer(50);
 int current_shape;
+int current_effect;
 
 color c[] = {#F46036, #D7263D, #C5D86D, #1B998B};
 int currentColor=int(random(c.length));
@@ -18,6 +19,7 @@ void setup() {
   size1 = 30;
   size2 = 60;
   current_shape = 4;
+  current_effect = 3;
   rectMode(CENTER);
 }
 
@@ -36,8 +38,10 @@ void draw() {
   // - O Shape.draw() desenha o objeto na tela, com os efeitos fade() e grow()
 
 
-  if (mousePressed) {
-    ShapeInterface s;
+if (mousePressed) {
+    Shape s;
+    ShapeInterface si;
+
     switch (current_shape) {
       case 1:
         s = makeshape(ELLIPSE, mouseX, mouseY, size1, size1);
@@ -64,7 +68,23 @@ void draw() {
         s = makeshape(RECT, mouseX, mouseY, size1, size1);
         break;
     }
-    shapes.add(s);
+    
+    switch (current_effect) {
+      case 1:
+        si = new FadeEffect(new GrowthEffect(s, 0.2), 0.1, 1); // tunel
+      break;
+      case 2:
+        si = new FadeEffect(new GrowthEffect(s, 0.2), 0.3, 3); // shapes
+      break;
+      case 3:
+        si = new GrowthEffect(new FadeEffect(s, 0.1, 1),0.2); // shapes
+      break;
+      default:
+        si = new FadeEffect(new GrowthEffect(s, 0.2), 0.3, 3); // shapes
+      break;
+    }
+    
+    shapes.add(si);
   }
 }
 
@@ -106,17 +126,15 @@ void keyPressed() {
 }
 
 
-ShapeInterface makeshape(int type, int x, int y, int w, int h) {
+Shape makeshape(int type, int x, int y, int w, int h) {
   PShape r = createShape(type, 0, 0, w, h);
   r.setStroke(c[currentColor]);
   Shape s = new Shape(r, x, y);
-  //return new FadeEffect(new GrowthEffect(s, 0.2), 0.1, 1); // tunel
-  //return new FadeEffect(new GrowthEffect(s, 0.2), 0.3, 3); // shapes
-  return new FadeEffect(new GrowthEffect(s, 0.12), 0.1, 1); // shapes
+  return s;
 }
 
-
-ShapeInterface makeshape(int npoints, int x, int y, float radius) {
+// Função pra criar formas diferentes (como triângulos, pentágonos e hexágonos)
+Shape makeshape(int npoints, int x, int y, float radius) {
   PShape r = createShape();
   
   float angle = TWO_PI / npoints;
@@ -130,9 +148,11 @@ ShapeInterface makeshape(int npoints, int x, int y, float radius) {
   r.setStroke(c[currentColor]);
   
   Shape s = new Shape(r, x, y);
-  return new FadeEffect(new GrowthEffect(s, 0.12), 0.1, 1); // shapes
-  
+
+  return s;
 }
+
+
 
 
 // shapes possiveis:
