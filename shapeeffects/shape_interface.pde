@@ -20,4 +20,9 @@ interface ShapeInterface {
   // usado pelo container para saber se deleta
   boolean isExpired();
 
+  float getX();
+  void setX(float val);
+  
+  float getY();
+  void setY(float val);
 }

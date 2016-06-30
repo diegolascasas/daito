@@ -5,8 +5,8 @@
 // Podemos dizer que a ShapeInterface declara o que da pra fazer, e a
 //  Shape implementa essas acoes. Os metodos definidos nos decorators
 //  geralmente vao fazer alguma coisa e chamar a shape.
-class Shape implements ShapeInterface{
-  int x, y;
+class Shape implements ShapeInterface {
+  float x, y;
   boolean expired; // so para ficar mais facil de limpar no ShapeContainer.
   PShape ps;
 
@@ -17,20 +17,36 @@ class Shape implements ShapeInterface{
     expired = false;
   }
 
-  PShape getPShape(){
-     return ps; 
+  PShape getPShape() {
+    return ps;
   }
 
   void draw() {
     shape(ps, x, y);
   }
 
-  boolean isExpired(){
+  boolean isExpired() {
     return expired;
   }
 
-  void markExpired(){
+  void markExpired() {
     expired = true;
+  }
+
+  float getX() {
+    return x;
+  }
+
+  void setX(float val) {
+    x = val;
+  }
+
+  float getY() {
+    return y;
+  }
+
+  void setY(float val) {
+    y = val;
   }
 }
 
@@ -44,7 +60,7 @@ class ShapeContainer {
     shapes = new ArrayList<ShapeInterface>();
     maxsize = maxsize_;
   }
-  
+
   ShapeContainer() {
     this(100);
   }
@@ -57,14 +73,14 @@ class ShapeContainer {
 
   void draw_and_clean() {     
     Iterator<ShapeInterface> it = shapes.iterator();
-    while(it.hasNext()) {
-        ShapeInterface s = it.next();
-        if (s.isExpired()){
-          it.remove();
-        } else{
-          s.draw();
-        }
-     }
+    while (it.hasNext()) {
+      ShapeInterface s = it.next();
+      if (s.isExpired()) {
+        it.remove();
+      } else {
+        s.draw();
+      }
+    }
   }
 }
 

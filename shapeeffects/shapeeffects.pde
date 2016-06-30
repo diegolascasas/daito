@@ -1,14 +1,18 @@
+import seltar.motion.*;
+
 
 ShapeContainer shapes = new ShapeContainer(200);
 int current_shape;
 
-int total_effects=4;
+int total_effects=7;
 int current_effect;
 
 color c[] = {#F46036, #D7263D, #C5D86D, #1B998B, #5F55A0};
 int current_color=int(random(c.length));
 
 int size1, size2;
+
+boolean continuousEffects = true;
 
 void setup() {
   frameRate(30);
@@ -36,67 +40,85 @@ void draw() {
   // - O Shape.draw() desenha o objeto na tela, com os efeitos fade() e grow()
 
 
-  if (mousePressed) {
-  //for(int i=0;i<4; i++){ // testando várias mãos
+  if (continuousEffects && mousePressed) {
+    //for(int i=0;i<4; i++){ // testando várias mãos
     //Shape s = createMyShape(mouseX+50*i, mouseY);
     Shape s = createMyShape(mouseX, mouseY);
     ShapeInterface si = addEffect(s);
     shapes.add(si);
-  //}
+    //}
   }
 }
 
-Shape createMyShape(int x, int y){
-  Shape s;
-  switch (current_shape) {
-      case 1:
-        s = makeshape(ELLIPSE, x, y, size1, size1);
-        break;
-      case 2:
-        s = makeshape(ELLIPSE, x, y, size1, size2);
-        break;
-      case 3:
-        s = makeshape(RECT, x, y, size1, size2);
-        break;
-      case 4:
-        s = makeshape(RECT, x, y, size1, size1);
-        break;
-      case 5:
-        s = makeshape(3, x, y, size1);
-        break;
-      case 6:
-        s = makeshape(5, x, y, size1);
-        break;
-      case 7:
-        s = makeshape(6, x, y, size1);
-        break;
-      default:
-        s = makeshape(RECT, x, y, size1, size1);
-        break;
-    }
-    return s;
+void mousePressed() {
+  if (!continuousEffects) {
+    Shape s = createMyShape(mouseX, mouseY);
+    ShapeInterface si = addEffect(s);
+    shapes.add(si);
+  }
 }
 
-ShapeInterface addEffect(Shape s){
+
+Shape createMyShape(int x, int y) {
+  Shape s;
+  switch (current_shape) {
+  case 1:
+    s = makeshape(ELLIPSE, x, y, size1, size1);
+    break;
+  case 2:
+    s = makeshape(ELLIPSE, x, y, size1, size2);
+    break;
+  case 3:
+    s = makeshape(RECT, x, y, size1, size2);
+    break;
+  case 4:
+    s = makeshape(RECT, x, y, size1, size1);
+    break;
+  case 5:
+    s = makeshape(3, x, y, size1);
+    break;
+  case 6:
+    s = makeshape(5, x, y, size1);
+    break;
+  case 7:
+    s = makeshape(6, x, y, size1);
+    break;
+  default:
+    s = makeshape(RECT, x, y, size1, size1);
+    break;
+  }
+  return s;
+}
+
+ShapeInterface addEffect(Shape s) {
   ShapeInterface si;
   switch (current_effect) {
-      case 0:
-        si = new FadeEffect(new GrowthEffect(s, 0.2), 0.1, 1); // tunel
-      break;
-      case 1:
-        si = new FadeEffect(new GrowthEffect(s, 0.2), 0.3, 3); // shapes
-      break;
-      case 2:
-        si = new GrowthEffect(new FadeEffect(new RotateEffect(s,0.3), 0.3, 3),0.3); // rotate still
-      break;
-      case 3:
-        si = new GrowthEffect(new FadeEffect(new RotateEffect(s,radians(frameCount%360)), 0.5, 5),0.5); // rotate movement
-      break;
-      default:
-        si = new FadeEffect(new GrowthEffect(s, 0.2), 0.3, 3);
-      break;
-    }
-    return si;
+  case 0:
+    si = new FadeEffect(new GrowthEffect(s, 0.2), 0.1, 1); // tunel
+    break;
+  case 1:
+    si = new FadeEffect(new GrowthEffect(s, 0.2), 0.3, 3); // shapes
+    break;
+  case 2:
+    si = new GrowthEffect(new FadeEffect(new RotateEffect(s, 0.3), 0.3, 3), 0.3); // rotate still
+    break;
+  case 3:
+    si = new GrowthEffect(new FadeEffect(new RotateEffect(s, radians(frameCount%360)), 0.5, 5), 0.5); // rotate movement
+    break;
+  case 4:
+    si  = new FallEffect(s);
+    break;
+  case 5:
+    si  = new FadeEffect(new FallEffect(s, 2), 0.2, 3);
+    break;
+  case 6:
+    si  = new GrowthEffect(new FadeEffect(new FallEffect(s, 2), 0.2, 3), 0.5);
+    break;
+  default:
+    si = new FadeEffect(new GrowthEffect(s, 0.2), 0.3, 3);
+    break;
+  }
+  return si;
 }
 
 void keyPressed() {
@@ -136,6 +158,8 @@ void keyPressed() {
   case 'e':
     current_effect=(current_effect+1)%total_effects;
     break;
+  case '/':
+    continuousEffects = !continuousEffects;
   }
 }
 
@@ -143,6 +167,7 @@ void keyPressed() {
 Shape makeshape(int type, int x, int y, int w, int h) {
   PShape r = createShape(type, 0, 0, w, h);
   r.setStroke(c[current_color]);
+  r.setFill(false);
   Shape s = new Shape(r, x, y);
   return s;
 }
@@ -159,7 +184,7 @@ Shape makeshape(int npoints, int x, int y, float radius) {
   }
   r.endShape(CLOSE);
   r.setStroke(c[current_color]);
-  
+  r.setFill(false);
   Shape s = new Shape(r, x, y);
 
   return s;
